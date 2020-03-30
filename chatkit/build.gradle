@@ -1,12 +1,13 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
+
+apply plugin: 'maven'
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 29
+    buildToolsVersion '29.0.3'
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 23
         versionCode 1
         versionName "1.0.0"
         consumerProguardFiles 'proguard.txt'
@@ -18,19 +19,32 @@ android {
     }
 }
 
-publish {
-    groupId = 'com.github.stfalcon'
-    artifactId = 'chatkit'
-    publishVersion = '1.0.0'
-    desc = 'ChatKit - is a library designed to simplify the development of UI for such a trivial task as chat. It have flexible possibilities for styling, customizing and data management'
-    licences = ['Apache-2.0']
-    uploadName = 'ChatKit'
-    website = 'https://github.com/stfalcon-studio/ChatKit.git'
+def username = nexus_username
+def password = nexus_password
+
+uploadArchives {
+    repositories {
+        repositories.mavenDeployer {
+            pom {
+                groupId = "com.digium"
+                artifactId = "chat-kit"
+                version = '1.0.0-SNAPSHOT'
+            }
+
+            snapshotRepository(url: "http://nexus.switchvox.com/repository/maven-snapshots/") {
+                authentication(userName: username, password: password)
+            }
+
+            repository(url: "http://nexus.switchvox.com/repository/maven-releases/") {
+                authentication(userName: username, password: password)
+            }
+        }
+    }
 }
 
 ext {
-    androidxVersion = '1.0.2'
-    materialVersion = '1.1.0-alpha03'
+    androidxVersion = '1.2.0-alpha03'
+    materialVersion = '1.2.0-alpha05'
     flexboxVersion = '1.1.0'
 }
 
