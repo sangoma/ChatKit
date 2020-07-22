@@ -77,7 +77,7 @@ class RecyclerScrollMoreListener
             }
 
             int visibleThreshold = 5;
-            if (!loading && (lastVisibleItemPosition + visibleThreshold) > totalItemCount) {
+            if ((lastVisibleItemPosition + visibleThreshold) > totalItemCount) {
                 currentPage++;
                 loadMoreListener.onLoadMore(currentPage, loadMoreListener.getMessagesCount());
                 loading = true;
